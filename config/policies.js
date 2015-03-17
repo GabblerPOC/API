@@ -51,8 +51,13 @@ module.exports.policies = {
 	// }
 
     UserController: {
-     find: ['hasJsonWebToken'] ,
-      open: true,
-      restricted: ['hasJsonWebToken'] 
+      '*': false,  
+      jwt: ['sessionAuth'],     
+      find: ['hasJsonWebToken'],   
+      findOne: ['hasJsonWebToken'],         
+      restricted: ['hasJsonWebToken'] ,
+      Follow: ['hasJsonWebToken'],
+      CreateGab: ['hasJsonWebToken']
+      
     }
 };

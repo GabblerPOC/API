@@ -10,7 +10,24 @@ module.exports = {
 
   attributes: require('waterlock').models.user.attributes({
     
-   
+   /* Attribut des Users */
+
+    Name: {
+      type:'string',
+      required: true
+    },
+
+    LastName: {
+      type:'string',
+      required: true
+    },
+
+    Age: {
+
+      type: 'Integer',
+      required: true
+    },
+
     /*Liaisons a tout les posts/Gabs de l'utilisateur*/
     gabs: {
       collection: "gab",
