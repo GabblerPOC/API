@@ -57,7 +57,9 @@ module.exports.policies = {
       findOne: ['hasJsonWebToken'],         
       restricted: ['hasJsonWebToken'] ,
       Follow: ['hasJsonWebToken'],
-      CreateGab: ['hasJsonWebToken']
+      CreateGab: ['hasJsonWebToken'],
+      LikeGab: ['hasJsonWebToken'],
+      GetTimeLine: ['hasJsonWebToken']
       
     }
 };

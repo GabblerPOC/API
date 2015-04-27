@@ -15,20 +15,7 @@ module.exports = require('waterlock').actions.user({
     }
   */
 
-  //Fonction de test
-  open: function(req,res){
-
-  	res.send("Fonction ouverte");
-
-  },
-
-
-  restricted: function(req,res){
-
-  	res.send("Fonction restricted");
-    console.log(req.session.user);
-
-  },
+  
 
   /*Fonction de Follow d'une personne*/
   Follow: function(req,res){
@@ -37,8 +24,8 @@ module.exports = require('waterlock').actions.user({
     var Id = req.param("id");
 
     var currentUser = req.session.user;
-   
-    //Nous recherchons l'utilisateur associé
+   if(Id != currentUser.id){
+     //Nous recherchons l'utilisateur associé
      User.findOne({id: Id},function(err,user){
         if(err)  res.json({success: false, error:'Une erreur est survenue : '+err});
        // console.log(user);
@@ -56,12 +43,17 @@ module.exports = require('waterlock').actions.user({
 
        }
        else{
-        res.json({success: false, error: 'User non trouvé'});
+        res.json({success: false, error: 'Utilisateur non trouvé'});
        }
        
       
 
      });
+   }
+   else{
+    res.json({success: false, error: 'Vous ne pouvez pas vous follow'});
+   }
+   
   },
 
   CreateGab: function(req,res){
@@ -100,9 +92,9 @@ module.exports = require('waterlock').actions.user({
   LikeGab: function(req,res){
 
 
-    var CurrentUser = res.session.user;
+    var CurrentUser = req.session.user;
 
-    var IdGab = req.param("gabId");
+    var IdGab = req.param("id");
 
     Gab.findOne(IdGab).exec(function(err,gab){
 
@@ -139,8 +131,57 @@ module.exports = require('waterlock').actions.user({
     });
 
 
+  },
+
+  GetTimeLine: function(req,res){
+
+      var CurrentUser = req.session.user;
+      //Objets qui  va contenir tout les gabs
+      var Gabs = [];
+      var following = [];
+
+      //On recupere tout ceux qu'ils follow et on affiche leur gabs
+     
+      User.findOne(CurrentUser.id) 
+      .populate("following")       
+      .exec(function(err,user){
+        if(err) res.json({success:false,error: err});
+
+        
+        for(var i=0;i<user.following.length;i++){
+          following.push(user.following[i].id);
+        }
+          
+         //Pour chaque personne on récupère leur gabs
+        
+          
+          Gab.find({
+            owner: following
+          })                 
+          .exec(function(err,gab){
+           
+            if(err) res.json({success:false, error: err});
+            //On ajoute les Gabs dans notre tableaux de retour
+            res.json({gabs: gab});
+
+           
+            
+          });
+
+
+
+        
+
+       
+
+      })
+
+      
+
   }
 
+
+  
 
 
 

@@ -33,7 +33,14 @@ module.exports = require('waterlock').waterlocked({
   		User.create(user).exec(function(err,user){
 
  			waterlock.engine.attachAuthToUser(AUTH,user,function(err,user){
- 				if(err) res.json({success:false,error: err});
+ 				if(err) {
+ 					User.destroy(user,function(err){
+
+ 						res.json({success:false,error: err});
+ 						
+ 					});
+ 					
+ 				}
 
  				if(user){
 

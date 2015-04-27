@@ -31,7 +31,22 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
+  '/user/:id/follow': {
+    controller: 'UserController',
+    action: 'Follow',
 
+  },
+
+  '/gab/:id/like': {
+    controller: 'UserController',
+    action: 'LikeGab',
+
+  },
+
+  '/timeline': {
+    controller: 'UserController',
+    action: 'GetTimeLine',
+  }
   
   /***************************************************************************
   *                                                                          *
