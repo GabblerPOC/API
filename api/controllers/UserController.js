@@ -137,17 +137,19 @@ module.exports = require('waterlock').actions.user({
 
       var CurrentUser = req.session.user;
       //Objets qui  va contenir tout les gabs
-      var Gabs = [];
+      
       var following = [];
+      var GabsFromUser = [];
 
       //On recupere tout ceux qu'ils follow et on affiche leur gabs
      
       User.findOne(CurrentUser.id) 
-      .populate("following")       
+      .populate("following")  
+      .populate("gabs")     
       .exec(function(err,user){
         if(err) res.json({success:false,error: err});
 
-        
+        GabsFromUser = user.gabs;
         for(var i=0;i<user.following.length;i++){
           following.push(user.following[i].id);
         }
@@ -159,7 +161,7 @@ module.exports = require('waterlock').actions.user({
             owner: following
           })                 
           .exec(function(err,gab){
-           
+           gab = gab.concat(GabsFromUser);
             if(err) res.json({success:false, error: err});
             //On ajoute les Gabs dans notre tableaux de retour
             res.json({gabs: gab});
