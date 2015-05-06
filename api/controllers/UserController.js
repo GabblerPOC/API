@@ -8,14 +8,10 @@
  * @docs        :: http://waterlock.ninja/documentation
  */
 
- var sid = require('shortid');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
+ 
 
-var UPLOAD_PATH = 'public/images';
+var UPLOAD_PATH = '../../public/avatar';
 
-sid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-sid.seed(42);
 
 
 //Fonction upload
@@ -235,7 +231,7 @@ module.exports = require('waterlock').actions.user({
      
      if(file){
 
-      file.upload({ dirname: '../../public/avatar'},function onUploadComplete(err, files){
+      file.upload({ dirname: UPLOAD_PATH},function onUploadComplete(err, files){
 
         if(err) return res.serverError(err);
 
