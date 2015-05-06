@@ -8,6 +8,47 @@
  * @docs        :: http://waterlock.ninja/documentation
  */
 
+ var sid = require('shortid');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+
+var UPLOAD_PATH = 'public/images';
+
+sid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
+sid.seed(42);
+
+
+//Fonction upload
+function safeFilename(name) {
+  name = name.replace(/ /g, '-');
+  name = name.replace(/[^A-Za-z0-9-_\.]/g, '');
+  name = name.replace(/\.+/g, '.');
+  name = name.replace(/-+/g, '-');
+  name = name.replace(/_+/g, '_');
+  return name;
+}
+ 
+function fileMinusExt(fileName) {
+  return fileName.split('.').slice(0, -1).join('.');
+}
+ 
+function fileExtension(fileName) {
+  return fileName.split('.').slice(-1);
+}
+ 
+// Where you would do your processing, etc
+// Stubbed out for now
+function processImage(id, name, path, cb) {
+  console.log('Processing image');
+ 
+  cb(null, {
+    'result': 'success',
+    'id': id,
+    'name': name,
+    'path': path
+  });
+}
+
 module.exports = require('waterlock').actions.user({
   /* e.g.
     action: function(req, res){
@@ -180,7 +221,69 @@ module.exports = require('waterlock').actions.user({
 
       
 
-  }
+  },
+
+  ModifierProfile: function(req,res){
+   
+    var currentUser = req.session.user;
+
+    var ModifUser = req.param("user") || {};
+    
+   
+     var file = req.file("userPhoto");
+     
+     
+     if(file){
+
+      file.upload({ dirname: '../../public/avatar'},function onUploadComplete(err, files){
+
+        if(err) return res.serverError(err);
+
+        console.log(files);
+        ModifUser.UrlBackGround = files[0].fd;
+
+        console.log(ModifUser);
+
+        User.update({Name: currentUser.Name},ModifUser).exec(function(err,user){
+          if(err) res.json({success:false,error: err});
+
+        if(user)
+          {
+            console.log(user);
+            res.json({success:true});
+          }
+
+    });
+
+
+
+     });
+
+     }
+     else{
+
+      User.update(currentUser,ModifUser,function(err,user){
+      if(err) res.json({success:false,error: err});
+
+      if(user)
+      {
+        res.json({success:true});
+      }
+
+    });
+
+
+     }
+     
+
+    
+
+
+    }
+
+
+
+  
 
 
   

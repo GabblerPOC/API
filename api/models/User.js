@@ -58,6 +58,10 @@ module.exports = {
       via: 'Likers'
     },
 
+    UrlBackGround: {
+      type: 'string'
+    },
+
 
     /*Override de la fonction toJSON pour enlever le mot de passe*/
     toJSON: function() {
