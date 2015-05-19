@@ -24,13 +24,13 @@ module.exports = require('waterlock').waterlocked({
   		password: req.param("password")  		
   	};
 
-  	var user = {
+  	var userObj = {
   			Name: req.param("Name"),
   			LastName: req.param("LastName"),
   			Age: req.param("Age")
   		};
 
-  		User.create(user).exec(function(err,user){
+  		User.create(userObj).exec(function(err,user){
 
  			waterlock.engine.attachAuthToUser(AUTH,user,function(err,user){
  				if(err) {
