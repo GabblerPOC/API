@@ -62,6 +62,10 @@ module.exports = {
       type: 'string'
     },
 
+    UrlAvatar: {
+      type: 'string'
+    },
+
 
     /*Override de la fonction toJSON pour enlever le mot de passe*/
     toJSON: function() {

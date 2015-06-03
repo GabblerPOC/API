@@ -216,6 +216,7 @@ module.exports = require('waterlock').actions.user({
 
     var ModifUser = req.param("user") || {};
 
+    
 
     var file = req.file("file");
 
@@ -260,6 +261,92 @@ module.exports = require('waterlock').actions.user({
     }
 
 
+  },
+
+  ModifierBackground: function (req, res) {
+
+    var currentUser = req.session.user;
+    var file = req.file("file");
+    var ModifUser = new User();
+   
+
+    if (file) {
+
+      file.upload({dirname: UPLOAD_PATH}, function onUploadComplete(err, files) {
+
+        if (err) return res.serverError(err);
+
+        console.log(files);
+        ModifUser.UrlBackGround = files[0].fd;
+
+        
+
+        User.update({id: currentUser.id}, ModifUser).exec(function (err, user) {
+          if (err) res.json({success: false, error: err});
+
+          if (user) {
+            console.log(user);
+            res.json({success: true});
+          }
+
+        });
+
+
+      });
+
+    }
+    else {
+
+     res.json({success:false});
+
+
+    }
+
+
+  },
+
+  ModifierAvatar: function (req, res) {
+
+    var currentUser = req.session.user;
+    var file = req.file("file");
+    var ModifUser = new User();
+   
+
+    if (file) {
+
+      file.upload({dirname: UPLOAD_PATH}, function onUploadComplete(err, files) {
+
+        if (err) return res.serverError(err);
+
+        console.log(files);
+        ModifUser.UrlAvatar = files[0].fd;
+
+        
+
+        User.update({id: currentUser.id}, ModifUser).exec(function (err, user) {
+          if (err) res.json({success: false, error: err});
+
+          if (user) {
+            console.log(user);
+            res.json({success: true});
+          }
+
+        });
+
+
+      });
+
+    }
+    else {
+
+     res.json({success:false});
+
+
+    }
+
+
   }
+
+
 
 });

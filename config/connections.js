@@ -46,7 +46,7 @@ module.exports.connections = {
     port      : 3306,
     user      : 'root',
     password  : '',
-    database  : 'Gabbler'
+    database  : 'gabbler'
   },
 
   /***************************************************************************
