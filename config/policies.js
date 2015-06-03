@@ -49,7 +49,7 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
-
+ 
     UserController: {
       //'*': false,  
       '*': ["hasJsonWebToken"],
@@ -61,7 +61,11 @@ module.exports.policies = {
       CreateGab: ['hasJsonWebToken'],
       LikeGab: ['hasJsonWebToken'],
       GetTimeLine: ['hasJsonWebToken'],
-      ModifierProfile: ['hasJsonWebToken']
+      ModifierProfile: ['hasJsonWebToken'],
+      UnFollow: ['hasJsonWebToken'],
+      UnLikeGab: ['hasJsonWebToken']
       
     }
+
+
 };

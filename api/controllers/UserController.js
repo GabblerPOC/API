@@ -93,6 +93,46 @@ module.exports = require('waterlock').actions.user({
 
   },
 
+  /*Fonction d'unfollow d'une personne */
+
+  UnFollow: function(req, res){
+     // var USER = res.session.user;
+
+    var Id = req.param("id");
+
+    var currentUser = req.session.user;
+    if (Id != currentUser.id) {
+      //Nous recherchons l'utilisateur associé
+      User.findOne({id: Id}, function (err, user) {
+        if (err)  res.json({success: false, error: 'Une erreur est survenue : ' + err});
+        // console.log(user);
+
+        //Si il y un user
+        if (user) {
+
+          currentUser.following.remove(Id);
+
+          currentUser.save(function (err) {
+            console.log(err);
+          });
+
+          res.json({success: true});
+
+
+        }
+        else {
+          res.json({success: false, error: 'Utilisateur non trouvé'});
+        }
+
+
+      });
+    }
+    else {
+      res.json({success: false, error: 'Vous ne pouvez pas vous unfollow'});
+    }
+
+  },
+
   CreateGab: function (req, res) {
 
     //récuperation du user courant
@@ -141,6 +181,50 @@ module.exports = require('waterlock').actions.user({
         //Le Gab existe bien
 
         CurrentUser.GabLiked.add(gab);
+
+        CurrentUser.save(function (err) {
+
+          if (err) {
+
+            res.json({success: false, error: err});
+
+          }
+          else {
+
+            res.json({success: true});
+
+          }
+
+        });
+
+      }
+      else {
+
+        res.json({success: false, error: "Ce Gab est introuvable"});
+      }
+
+
+    });
+
+
+  },
+
+  UnLikeGab: function (req, res) {
+
+
+    var CurrentUser = req.session.user;
+
+    var IdGab = req.param("id");
+
+    Gab.findOne(IdGab).exec(function (err, gab) {
+
+      if (err)  res.json({success: false, error: err});
+
+      if (gab) {
+
+        //Le Gab existe bien
+
+        CurrentUser.GabLiked.remove(IdGab);
 
         CurrentUser.save(function (err) {
 
