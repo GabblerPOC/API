@@ -51,7 +51,8 @@ module.exports.policies = {
 	// }
 
     UserController: {
-      '*': false,  
+      //'*': false,  
+      '*': ["hasJsonWebToken"],
       jwt: ['sessionAuth'],     
       find: ['hasJsonWebToken'],   
       findOne: ['hasJsonWebToken'],         

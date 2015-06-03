@@ -13,6 +13,14 @@ module.exports = {
     /* e.g.
     nickname: 'string'
     */
+
+     /*Override de la fonction toJSON pour enlever le mot de passe*/
+    toJSON: function() {
+    	var obj = this.toObject();
+    	delete obj.password;
+    	return obj;	
+
+    }
     
   }),
   
