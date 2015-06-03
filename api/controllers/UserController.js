@@ -165,6 +165,40 @@ module.exports = require('waterlock').actions.user({
 
   },
 
+  DeleteGab: function (req, res) {
+
+    //récuperation du user courant
+    var Currentuser = req.session.user;
+
+    var IDGab = req.param("id");
+
+    Gab.findOne({id: IDGab}, function(err, gab){
+      if (err)  res.json({success: false, error: 'Une erreur est survenue : ' + err});
+
+      if(gab){
+          console.log(gab);
+          if(gab.owner == Currentuser.id){
+            Gab.destroy({id: IDGab}, function(err){
+              if (err)  res.json({success: false, error: 'Une erreur est survenue : ' + err});
+              res.json({success:true});
+            });
+          }else{
+            res.json({success:false,error:"Forbidden"});
+          }
+      }else{
+        res.json({success:false, error:"Aucun Gab trouvée"});
+      }
+
+    });
+   
+    
+    
+
+    
+
+
+  },
+
   LikeGab: function (req, res) {
 
 

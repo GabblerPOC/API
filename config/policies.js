@@ -63,7 +63,8 @@ module.exports.policies = {
       GetTimeLine: ['hasJsonWebToken'],
       ModifierProfile: ['hasJsonWebToken'],
       UnFollow: ['hasJsonWebToken'],
-      UnLikeGab: ['hasJsonWebToken']
+      UnLikeGab: ['hasJsonWebToken'],
+      DeleteGab: ['hasJsonWebToken']
       
     }
 
