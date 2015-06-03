@@ -60,7 +60,9 @@ module.exports.policies = {
       CreateGab: ['hasJsonWebToken'],
       LikeGab: ['hasJsonWebToken'],
       GetTimeLine: ['hasJsonWebToken'],
-      ModifierProfile: ['hasJsonWebToken']
+      ModifierProfile: ['hasJsonWebToken'],
+      ModifierAvatar: ['hasJsonWebToken'],
+      ModifierBackground : ['hasJsonWebToken']
       
     }
 };

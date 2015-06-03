@@ -10,7 +10,8 @@
 
 
 
-var UPLOAD_PATH = '../../public/avatar';
+var UPLOAD_PATH_AVATAR = '../../assets/images/avatar';
+var UPLOAD_PATH_BACKGROUND = '../../assets/images/background';
 
 
 //Fonction upload
@@ -267,17 +268,20 @@ module.exports = require('waterlock').actions.user({
 
     var currentUser = req.session.user;
     var file = req.file("file");
-    var ModifUser = new User();
+    var ModifUser = {};
    
 
     if (file) {
 
-      file.upload({dirname: UPLOAD_PATH}, function onUploadComplete(err, files) {
+      file.upload({dirname: UPLOAD_PATH_BACKGROUND}, function onUploadComplete(err, files) {
 
         if (err) return res.serverError(err);
 
-        console.log(files);
-        ModifUser.UrlBackGround = files[0].fd;
+       var Index = files[0].fd.lastIndexOf("/");
+        var PATH = "/images/background"+files[0].fd.substr(Index, files[0].fd.length);
+
+        console.log(PATH);
+        ModifUser.UrlBackGround = PATH;
 
         
 
@@ -309,17 +313,20 @@ module.exports = require('waterlock').actions.user({
 
     var currentUser = req.session.user;
     var file = req.file("file");
-    var ModifUser = new User();
+    var ModifUser = {};
    
 
     if (file) {
 
-      file.upload({dirname: UPLOAD_PATH}, function onUploadComplete(err, files) {
+      file.upload({dirname: UPLOAD_PATH_AVATAR}, function onUploadComplete(err, files) {
 
         if (err) return res.serverError(err);
 
         console.log(files);
-        ModifUser.UrlAvatar = files[0].fd;
+        var Index = files[0].fd.lastIndexOf("\\");
+        var PATH = "/images/avatar"+files[0].fd.substr(Index, files[0].fd.length);
+        console.log(PATH);
+        ModifUser.UrlAvatar = PATH;
 
         
 
