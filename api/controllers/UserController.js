@@ -333,19 +333,46 @@ module.exports = require('waterlock').actions.user({
 
     var currentUser = req.session.user;
 
-    var ModifUser = req.param("user") || {};
+    var ModifUser = {
 
-    
+      Name:req.param("Name"),
+      LastName:req.param("LastName"),
+      Age:req.param("Age"),
 
+
+    };
    
 
 
+
     
 
-      User.update(currentUser, ModifUser, function (err, user) {
+    console.log(ModifUser);
+
+
+    
+
+      User.update({id: currentUser.id}, ModifUser, function (err, user) {
         if (err) res.json({success: false, error: err});
 
         if (user) {
+
+          if(req.param("password")){
+      
+            var ModifAuth = {
+              password: req.param("password")
+            }
+
+            Auth.update(user.auth, ModifAuth, function (err, auth) {
+               if (err) res.json({success: false, error: err});
+
+                if (auth) {
+                  res.json({success: true});
+              }
+                
+
+            });
+          }
           res.json({success: true});
         }
 
