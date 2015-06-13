@@ -299,12 +299,18 @@ module.exports = require('waterlock').actions.user({
 
     User.findOne(CurrentUser.id)
       .populate("following")
-      .populate("gabs")
-      .populate("owner")
+      .populate("gabs")      
       .exec(function (err, user) {
         if (err) res.json({success: false, error: err});
 
-        GabsFromUser = user.gabs;
+       
+
+        for (var i = 0; i < user.gabs.length; i++) {
+          user.gabs[i].owner = user;
+        }
+
+           GabsFromUser = user.gabs;
+           
         for (var i = 0; i < user.following.length; i++) {
           following.push(user.following[i].id);
         }
