@@ -298,22 +298,17 @@ module.exports = require('waterlock').actions.user({
     //On recupere tout ceux qu'ils follow et on affiche leur gabs
 
     User.findOne(CurrentUser.id)
-      .populate("following")
-      .populate("gabs")      
+      .populate("following")      
       .exec(function (err, user) {
         if (err) res.json({success: false, error: err});
+          
 
-       
-
-        for (var i = 0; i < user.gabs.length; i++) {
-          user.gabs[i].owner = user;
-        }
-
-           GabsFromUser = user.gabs;
-           
         for (var i = 0; i < user.following.length; i++) {
           following.push(user.following[i].id);
         }
+
+        //On ajoute l'utilisateurs dans les gabs a recup
+        following.push(CurrentUser.id);
 
         //Pour chaque personne on récupère leur gabs
         Gab.find({
@@ -321,7 +316,7 @@ module.exports = require('waterlock').actions.user({
         })
         .populate("owner")
           .exec(function (err, gab) {
-            gab = gab.concat(GabsFromUser);
+            
             if (err) res.json({success: false, error: err});
             //On ajoute les Gabs dans notre tableaux de retour
             res.json({gabs: gab});
