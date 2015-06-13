@@ -314,6 +314,7 @@ module.exports = require('waterlock').actions.user({
         Gab.find({
           owner: following
         })
+        .populate("owner")
           .exec(function (err, gab) {
             gab = gab.concat(GabsFromUser);
             if (err) res.json({success: false, error: err});
@@ -358,14 +359,15 @@ module.exports = require('waterlock').actions.user({
         if (user) {
 
           if(req.param("password")){
-      
+        
             var ModifAuth = {
               password: req.param("password")
             }
-
+            
             Auth.update(user.auth, ModifAuth, function (err, auth) {
                if (err) res.json({success: false, error: err});
 
+               console.log(auth);
                 if (auth) {
                   res.json({success: true});
               }
