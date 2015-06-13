@@ -300,6 +300,7 @@ module.exports = require('waterlock').actions.user({
     User.findOne(CurrentUser.id)
       .populate("following")
       .populate("gabs")
+      .populate("owner")
       .exec(function (err, user) {
         if (err) res.json({success: false, error: err});
 
@@ -309,8 +310,6 @@ module.exports = require('waterlock').actions.user({
         }
 
         //Pour chaque personne on récupère leur gabs
-
-
         Gab.find({
           owner: following
         })
