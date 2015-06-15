@@ -7,7 +7,7 @@
  *
  * @docs        :: http://waterlock.ninja/documentation
  */
-
+var path = require("path");
 
 
 var UPLOAD_PATH_AVATAR = '../../assets/images/avatar';
@@ -315,7 +315,7 @@ module.exports = require('waterlock').actions.user({
           owner: following
         })
         .populate("owner")
-          .exec(function (err, gab) {
+        .exec(function (err, gab) {
             
             if (err) res.json({success: false, error: err});
             //On ajoute les Gabs dans notre tableaux de retour
@@ -325,7 +325,7 @@ module.exports = require('waterlock').actions.user({
           });
 
 
-      })
+      });
 
 
   },
@@ -399,8 +399,9 @@ module.exports = require('waterlock').actions.user({
 
         if (err) return res.serverError(err);
 
-       var Index = files[0].fd.lastIndexOf("\\");
-        var PATH = "/images/background"+files[0].fd.substr(Index, files[0].fd.length);
+       
+        var NameFile = path.basename(files[0].fd);
+        var PATH = "/images/background/"+ NameFile;
 
         console.log(PATH);
         ModifUser.UrlBackGround = PATH;
@@ -444,9 +445,9 @@ module.exports = require('waterlock').actions.user({
 
         if (err) return res.serverError(err);
 
-        console.log(files);
-        var Index = files[0].fd.lastIndexOf("\\");
-        var PATH = "/images/avatar"+files[0].fd.substr(Index, files[0].fd.length);
+         var NameFile = path.basename(files[0].fd);
+        var PATH = "/images/background/"+ NameFile;
+        
         console.log(PATH);
         ModifUser.UrlAvatar = PATH;
 
