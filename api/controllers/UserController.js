@@ -399,6 +399,9 @@ module.exports = require('waterlock').actions.user({
 
         if (err) return res.serverError(err);
 
+        if(files.length == 0){
+          return res.json({success:false, error:"no file was uploaded"});
+        }
        
         var NameFile = path.basename(files[0].fd);
         var PATH = "/images/background/"+ NameFile;
@@ -445,8 +448,12 @@ module.exports = require('waterlock').actions.user({
 
         if (err) return res.serverError(err);
 
+        if(files.length == 0){
+          return res.json({success:false, error:"no file was uploaded"});
+        }
+
          var NameFile = path.basename(files[0].fd);
-        var PATH = "/images/background/"+ NameFile;
+        var PATH = "/images/avatar/"+ NameFile;
         
         console.log(PATH);
         ModifUser.UrlAvatar = PATH;
